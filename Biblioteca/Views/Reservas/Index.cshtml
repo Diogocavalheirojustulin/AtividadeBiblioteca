@@ -29,6 +29,18 @@
                 </tr>
             </thead>
             <tbody>
+            <td>
+                    @(item.Cancelada ? "Cancelada" : (item.LivroRetirado ? "Retirada" : "Pendente"))
+                    @if (!item.Cancelada && !item.LivroRetirado)
+                    {
+                    <form asp-action="Cancelar" asp-route-id="@item.ReservaId" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm ms-2" onclick="return confirm('Deseja cancelar esta reserva?');">
+                            Cancelar
+                        </button>
+                    </form>
+                    }
+            </td>
+
                 @if (Model != null && Model.Any())
                 {
                     foreach (var item in Model)
