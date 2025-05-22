@@ -4,16 +4,19 @@ using Biblioteca.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Biblioteca.Migrations
+namespace Biblioteca.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250522141723_Completa")]
+    partial class Completa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,13 +262,13 @@ namespace Biblioteca.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0c21e294-33ff-4ae6-bfcb-3a3271d83452",
+                            Id = "263aca7d-8d64-42b6-835f-b57572d7b810",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "7f0e2254-8bff-4735-b196-1c8825630f27",
+                            Id = "e301257b-4cc4-4fd7-afdb-830d3ff3e4aa",
                             Name = "Aluno",
                             NormalizedName = "ALUNO"
                         });
@@ -363,17 +366,17 @@ namespace Biblioteca.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3a4440b0-0af3-4b06-8f9e-05dc4b962c96",
+                            Id = "ab25ba45-1ba5-449c-9f7a-58b4837fba5c",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a55adca4-0831-4c15-ad45-6c33a2a303d1",
+                            ConcurrencyStamp = "eb205dd7-1d34-4cb3-a28a-90d38bd3bd15",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOF6/tsN4EpRi5M9wgL9+/zLAa/1/CVmhyfEDCC+X4f4X5id0I4bDRIbNUmIOOhOgg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI5zBYqcZDJhvzv1eRQg6mOk7ei8YbP6naYrm9uhdh1JuUFVSzcj2coCqVis7/Qamg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "67a81d47-5d80-458e-8c50-7e9d1ce0e10e",
+                            SecurityStamp = "bfcca814-9aff-40c8-afcf-5d9eda535757",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -407,12 +410,10 @@ namespace Biblioteca.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -445,8 +446,8 @@ namespace Biblioteca.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "3a4440b0-0af3-4b06-8f9e-05dc4b962c96",
-                            RoleId = "0c21e294-33ff-4ae6-bfcb-3a3271d83452"
+                            UserId = "ab25ba45-1ba5-449c-9f7a-58b4837fba5c",
+                            RoleId = "263aca7d-8d64-42b6-835f-b57572d7b810"
                         });
                 });
 
@@ -456,12 +457,10 @@ namespace Biblioteca.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
