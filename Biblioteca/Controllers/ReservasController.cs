@@ -334,5 +334,23 @@ namespace Biblioteca.Controllers
             // Redireciona para a action Retiradas do MovimentacoesController
             return RedirectToAction("Retiradas", "Movimentacoes");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Resetar(int id)
+        {
+            var reserva = _context.Reservas.FirstOrDefault(r => r.ReservaId == id);
+            if (reserva != null)
+            {
+                var livro = _context.Livros.FirstOrDefault(l => l.LivroId == reserva.LivroId);
+                if (livro != null)
+                    livro.Quantidade += 1;
+
+                reserva.Cancelada = true;
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
