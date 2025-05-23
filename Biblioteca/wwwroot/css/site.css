@@ -23,7 +23,7 @@ body {
 }
 
 .parallax {
-    background-image: url('../img/biblioteca.jpeg');
+    background-image: url('https://kinsta.com/pt/wp-content/uploads/sites/3/2021/03/bibliotecas-javascript.png');
     height: 550px;
     max-height: 550px;
     background-attachment: fixed;

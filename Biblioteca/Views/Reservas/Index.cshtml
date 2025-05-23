@@ -26,6 +26,7 @@
                     <th>Data Reserva</th>
                     <th>Livro</th>
                     <th>Status</th>
+                    <th>Avaliar</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,16 +40,28 @@
                             <td>
                                 @(item.Cancelada ? "Cancelada" : (item.LivroRetirado ? "Retirada" : "Pendente"))
                             </td>
+                            <td>
+                                @if (item.LivroRetirado)
+                                {
+                                    <a asp-controller="Avaliacoes"
+                                       asp-action="Create"
+                                       asp-route-livroId="@item.LivroId"
+                                       class="btn btn-sm btn-success">
+                                        <i class="bi bi-star"></i> Avaliar
+                                    </a>
+                                }
+                            </td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <td colspan="3" class="text-center">Nenhuma reserva encontrada.</td>
+                        <td colspan="4" class="text-center">Nenhuma reserva encontrada.</td>
                     </tr>
                 }
             </tbody>
+
         </table>
     </div>
     <div class="col-1 col-md-2 col-lg-2"></div>

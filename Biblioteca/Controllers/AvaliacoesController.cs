@@ -7,51 +7,64 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Biblioteca.Data;
 using Biblioteca.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Biblioteca.Controllers
 {
+    // using Microsoft.AspNetCore.Identity;
+    // using Microsoft.EntityFrameworkCore;
+
     public class AvaliacoesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AvaliacoesController(ApplicationDbContext context)
+        public AvaliacoesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        // GET: Avaliacoes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Avaliacoes.Include(a => a.Livro).Include(a => a.Usuario);
-            return View(await applicationDbContext.ToListAsync());
-        }
+            // Obtém o usuário logado
+            var user = await _userManager.GetUserAsync(User);
 
-        // GET: Avaliacoes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            // Busca o UsuarioId correspondente ao IdentityUser
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.AppUserId.ToString() == user.Id);
+
+            if (usuario == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
 
-            var avaliacao = await _context.Avaliacoes
+            // Busca os livros que o usuário já retirou
+            var livrosRetiradosIds = await _context.Reservas
+                .Where(r => r.UsuarioId == usuario.UsuarioId)
+                .Select(r => r.LivroId)
+                .Distinct()
+                .ToListAsync();
+
+            // Filtra as avaliações apenas desses livros
+            var avaliacoes = await _context.Avaliacoes
                 .Include(a => a.Livro)
                 .Include(a => a.Usuario)
-                .FirstOrDefaultAsync(m => m.AvaliacaoId == id);
-            if (avaliacao == null)
-            {
-                return NotFound();
-            }
+                .Where(a => livrosRetiradosIds.Contains(a.LivroId))
+                .ToListAsync();
 
-            return View(avaliacao);
+            return View(avaliacoes);
         }
 
         // GET: Avaliacoes/Create
-        public IActionResult Create()
+        public IActionResult Create(int? livroId)
         {
-            ViewData["LivroId"] = new SelectList(_context.Livros, "LivroId", "LivroId");
+            ViewData["LivroId"] = new SelectList(_context.Livros, "LivroId", "LivroId", livroId);
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "UsuarioId", "UsuarioId");
-            return View();
+            var avaliacao = new Avaliacao();
+            if (livroId.HasValue)
+                avaliacao.LivroId = livroId.Value;
+            return View(avaliacao);
         }
 
         // POST: Avaliacoes/Create
